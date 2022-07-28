@@ -4,8 +4,8 @@ import java.util.List;
 // Sorry if you think its ugly
 public class Solver {
     public static void main(String[] args) {
-        int size = Integer.MAX_VALUE;
-        int ops = 0;
+        long size = Long.MAX_VALUE;
+        long ops = 0;
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);
         }

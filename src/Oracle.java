@@ -2,9 +2,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Oracle {
-    private final int[] edge;
+    private final long[] edge;
 
-    public Oracle(int[] edge) {
+    public Oracle(long[] edge) {
         this.edge = edge;
 //        this.edge = new int[]{9, 95}; // REMOVEME
         System.out.println("REMOVEME: " + this.edge[0] + ", " + this.edge[1]);

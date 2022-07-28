@@ -2,18 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Interval {
-    public final int startInclusive;
-    public final int endExclusive;
+    public final long startInclusive;
+    public final long endExclusive;
 
-    public final int length;
+    public final long length;
 
-    public Interval(int startInclusive, int endExclusive) {
+    public Interval(long startInclusive, long endExclusive) {
         this.startInclusive = startInclusive;
         this.endExclusive = endExclusive;
         this.length = endExclusive - startInclusive;
     }
 
-    public boolean contains(int i) {
+    public boolean contains(long i) {
         return i >= startInclusive && i < endExclusive;
     }
 
@@ -23,11 +23,11 @@ public class Interval {
             return List.of(this);
 //            throw new RuntimeException("CHUNKING FAILED");
         }
-        int chunkSize = length / chunks;
+        long chunkSize = length / chunks;
         List<Interval> chunkList = new ArrayList<>();
         for(int i = 0; i < chunks; i++) {
-            int start = startInclusive + i * chunkSize;
-            int end = start + chunkSize;
+            long start = startInclusive + i * chunkSize;
+            long end = start + chunkSize;
             if(i == chunks - 1) {
                 end = endExclusive;
             }
@@ -36,10 +36,10 @@ public class Interval {
         return chunkList;
     }
 
-    public int[] chooseTwo() {
-        int a = (int) Math.floor(Math.random() * length - 1);
-        int b = (int) Math.floor(Math.random() * length - a) + a;
-        return new int[]{a + startInclusive, b + startInclusive};
+    public long[] chooseTwo() {
+        long a = (long) Math.floor(Math.random() * length - 1);
+        long b = (long) Math.floor(Math.random() * length - a) + a;
+        return new long[]{a + startInclusive, b + startInclusive};
     }
 
     @Override
