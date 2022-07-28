@@ -6,7 +6,7 @@ public class Oracle {
 
     public Oracle(int[] edge) {
         this.edge = edge;
-//        this.pair = new int[]{81, 20}; // REMOVEME
+//        this.edge = new int[]{9, 95}; // REMOVEME
         System.out.println("REMOVEME: " + this.edge[0] + ", " + this.edge[1]);
     }
 

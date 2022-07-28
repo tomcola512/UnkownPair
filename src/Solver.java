@@ -1,14 +1,16 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 // Sorry if you think its ugly
 public class Solver {
     public static void main(String[] args) {
-        int size = 100;
+        int size = 1_000_000_000;
         int ops = 0;
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);
         }
+        System.out.println("SEARCH SPACE: " + size);
         Interval allNodes = new Interval(0, size);
         Oracle oracle = new Oracle(allNodes.chooseTwo());
 
@@ -95,18 +97,23 @@ public class Solver {
             }
 
             if(chunks.size() == 2) {
+                // TODO split into bigger groups if there are enough remaining nodes based
+                // TODO on some heuristic
+                List<Interval> nextChunks = new ArrayList<>();
                 if (chunks.get(0).length > 1) {
-                    // TODO split into bigger groups if there are enough remaining nodes based
-                    // TODO on some heuristic
-                    List<Interval> nextChunks = Stream.concat(
-                            chunks.get(0).split(2).stream(),
-                            chunks.get(1).split(2).stream()
-                    ).toList();
-                    if(!oracle.test(nextChunks)) {
-                        System.out.println("oof");
-                    }
-                    chunks = nextChunks;
+                    nextChunks.addAll(chunks.get(0).split(2));
+                } else {
+                    nextChunks.add(chunks.get(0));
                 }
+                if(chunks.get(1).length > 1) {
+                    nextChunks.addAll(chunks.get(1).split(2));
+                } else {
+                    nextChunks.add(chunks.get(1));
+                }
+                if(!oracle.test(nextChunks)) {
+                    System.out.println("oof");
+                }
+                chunks = nextChunks;
             } else {
                 System.out.println("FIXME");
             }
