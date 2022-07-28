@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 // Sorry if you think its ugly
 public class Solver {
     public static void main(String[] args) {
-        int size = 1_000_000_000;
+        int size = Integer.MAX_VALUE;
         int ops = 0;
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);

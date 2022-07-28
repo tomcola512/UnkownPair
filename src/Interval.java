@@ -13,13 +13,6 @@ public class Interval {
         this.length = endExclusive - startInclusive;
     }
 
-    public Interval to(int newEndExclusive) {
-        return new Interval(startInclusive, newEndExclusive);
-    }
-    public Interval from(int newStartInclusive) {
-        return new Interval(newStartInclusive, endExclusive);
-    }
-
     public boolean contains(int i) {
         return i >= startInclusive && i < endExclusive;
     }
