@@ -6,7 +6,6 @@ public class Oracle {
 
     public Oracle(long[] edge) {
         this.edge = edge;
-//        this.edge = new int[]{9, 95}; // REMOVEME
         System.out.println("REMOVEME: " + this.edge[0] + ", " + this.edge[1]);
     }
 
@@ -15,10 +14,5 @@ public class Oracle {
                 .allMatch(i ->
                         tests.stream()
                                 .anyMatch(interval -> interval.contains(i)));
-    }
-
-    public boolean test(Interval a, Interval b) {
-        return Arrays.stream(edge)
-                .allMatch(i -> a.contains(i) || b.contains(i));
     }
 }

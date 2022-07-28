@@ -17,11 +17,11 @@ public class Interval {
         return i >= startInclusive && i < endExclusive;
     }
 
-    public List<Interval> split(int chunks) {
+    public List<Interval> split(boolean initial) {
+        long chunks = initial ? 5 : (length > Long.MAX_VALUE >> 2 ? 6 : 2); // dumb AND bad heuristic
         if(length < chunks) {
             //kludgy fix
             return List.of(this);
-//            throw new RuntimeException("CHUNKING FAILED");
         }
         long chunkSize = length / chunks;
         List<Interval> chunkList = new ArrayList<>();
@@ -38,7 +38,7 @@ public class Interval {
 
     public long[] chooseTwo() {
         long a = (long) Math.floor(Math.random() * length - 1);
-        long b = (long) Math.floor(Math.random() * length - a) + a;
+        long b = (long) Math.floor(Math.random() * (length - a)) + a;
         return new long[]{a + startInclusive, b + startInclusive};
     }
 
