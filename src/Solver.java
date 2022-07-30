@@ -16,9 +16,7 @@ public class Solver {
                         .filter((int b) -> b != a)
                         .mapToObj((int b) -> List.of(chunks.get(a), chunks.get(b))));
 
-        List<List<Interval>> debug = combinationStream.toList();
-
-        return debug.stream().filter(tests -> {
+        return combinationStream.filter(tests -> {
             ops.incrementAndGet();
             return oracle.test(tests);
         }).findAny().orElseThrow();
