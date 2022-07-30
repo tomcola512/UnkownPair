@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 // Sorry if you think its ugly
@@ -46,13 +47,16 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-        long size = Long.MAX_VALUE;
+        int size = Integer.MAX_VALUE >> 5;
         AtomicLong ops = new AtomicLong(0);
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);
         }
         System.out.println("SEARCH SPACE: " + size);
-        Interval allNodes = new Interval(0, size);
+        List<Integer> providedList = IntStream.range(0, size).parallel().filter(l -> Math.random() > .9).boxed().toList();
+        System.out.println("TOTAL TESTS: " + providedList.size());
+        Interval allNodes = new Interval(providedList, 0, providedList.size());
+
         Oracle oracle = new Oracle(allNodes.chooseTwo());
 
         List<Interval> chunks = allNodes.split(true);
