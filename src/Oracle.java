@@ -6,13 +6,14 @@ public class Oracle {
 
     public Oracle(int[] edge) {
         this.edge = edge;
-        System.out.println("REMOVEME: " + this.edge[0] + ", " + this.edge[1]);
+        System.out.println("BAD PAIR: " + this.edge[0] + ", " + this.edge[1]);
     }
 
     public boolean test(List<Interval> tests) {
-        return Arrays.stream(edge)
+        boolean val = Arrays.stream(edge)
                 .allMatch(i ->
                         tests.stream()
                                 .anyMatch(interval -> interval.contains(i)));
+        return val;
     }
 }

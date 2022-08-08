@@ -17,11 +17,18 @@ public class Interval implements List<Integer>{
     }
 
     public boolean contains(Integer i) {
-        return i >= startInclusive && i < endExclusive;
+        try {
+            return IntStream
+                    .range(0, length)
+                    .mapToObj(this::get)
+                    .anyMatch(z -> z == i);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
     }
 
     public List<Interval> split(boolean initial) {
-        int chunks = initial ? 5 : (length > Integer.MAX_VALUE >> 2 ? 6 : 2); // dumb AND bad heuristic
+        int chunks = initial ? 4 : (length > Integer.MAX_VALUE >> 2 ? 6 : 2); // dumb AND bad heuristic
         if(length < chunks) {
             //kludgy fix
             return List.of(this);
@@ -42,7 +49,7 @@ public class Interval implements List<Integer>{
     public int[] chooseTwo() {
         int a = (int) Math.floor(Math.random() * length - 1);
         int b = (int) Math.floor(Math.random() * (length - a)) + a;
-        return new int[]{a + startInclusive, b + startInclusive};
+        return new int[]{get(a + startInclusive), get(b + startInclusive)};
     }
 
     @Override

@@ -16,10 +16,12 @@ public class Solver {
                         .filter((int b) -> b != a)
                         .mapToObj((int b) -> List.of(chunks.get(a), chunks.get(b))));
 
-        return combinationStream.filter(tests -> {
+        List<List<Interval>> lists = combinationStream.toList();
+
+        return lists.stream().filter(tests -> {
             ops.incrementAndGet();
             return oracle.test(tests);
-        }).findAny().orElseThrow();
+        }).findAny().orElseThrow(); // TODO doesn't work when actually lensing
     }
 
     public static List<Interval> split(Oracle oracle, List<Interval> chunks) {
@@ -45,7 +47,8 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-        int size = Integer.MAX_VALUE >> 5;
+//        int size = Integer.MAX_VALUE >> 5;
+        int size = 100;
         AtomicLong ops = new AtomicLong(0);
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);
@@ -63,8 +66,8 @@ public class Solver {
             chunks = split(oracle, chunks);
         }
 
-        System.out.println(chunks.get(0).startInclusive);
-        System.out.println(chunks.get(1).startInclusive);
+        System.out.println(chunks.get(0).get(0));
+        System.out.println(chunks.get(1).get(0));
         System.out.println("NON-GUARD TESTS: " + ops.get());
     }
 }
