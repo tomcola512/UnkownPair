@@ -21,7 +21,7 @@ public class Interval implements List<Integer>{
             return IntStream
                     .range(0, length)
                     .mapToObj(this::get)
-                    .anyMatch(z -> z == i);
+                    .anyMatch(z -> Objects.equals(z, i)); // Why didn't == work above certain values?
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
         }
@@ -49,7 +49,7 @@ public class Interval implements List<Integer>{
     public int[] chooseTwo() {
         int a = (int) Math.floor(Math.random() * length - 1);
         int b = (int) Math.floor(Math.random() * (length - a)) + a;
-        return new int[]{get(a + startInclusive), get(b + startInclusive)};
+        return new int[]{get(a), get(b)};
     }
 
     @Override

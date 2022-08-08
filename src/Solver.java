@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -47,27 +49,38 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-//        int size = Integer.MAX_VALUE >> 5;
-        int size = 100;
+        int size = Integer.MAX_VALUE >> 6;
+//        int size = 200;
         AtomicLong ops = new AtomicLong(0);
         if (args.length > 0) {
             size = Integer.parseInt(args[0]);
         }
         System.out.println("SEARCH SPACE: " + size);
-        List<Integer> providedList = IntStream.range(0, size).parallel().filter(l -> Math.random() > .9).boxed().toList();
+
+        Instant startSetup = Instant.now();
+        List<Integer> providedList = IntStream.range(0, size).parallel().filter(l -> Math.random() > .5).boxed().toList();
+
+        Instant endSetup = Instant.now();
+
+        System.out.println("WALL TIME TO RENDER LIST: " + Duration.between(startSetup, endSetup));
+//        System.out.println(providedList);
         System.out.println("TOTAL TESTS: " + providedList.size());
         Interval allNodes = new Interval(providedList, 0, providedList.size());
 
         Oracle oracle = new Oracle(allNodes.chooseTwo());
+        Instant start = Instant.now();
 
         List<Interval> chunks = allNodes.split(true);
+        assert(oracle.test(chunks));
         while (chunks.size() > 2 || !chunks.stream().allMatch(chunk -> chunk.length == 1)) { // second test unnecessary?
             chunks = combine(oracle, chunks, ops);
             chunks = split(oracle, chunks);
         }
+        Instant end = Instant.now();
 
         System.out.println(chunks.get(0).get(0));
         System.out.println(chunks.get(1).get(0));
         System.out.println("NON-GUARD TESTS: " + ops.get());
+        System.out.println("WALL TIME TO VECTOR BISECT: " + Duration.between(start, end));
     }
 }
